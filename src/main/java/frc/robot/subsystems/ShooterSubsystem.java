@@ -2,36 +2,25 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
+import frc.robot.Constants.IntakeConstants;
 
+/** Intake roller on its own PWM channel (see IntakeConstants). */
 public class ShooterSubsystem extends SubsystemBase {
     private Victor intake;
-    
-    public ShooterSubsystem(){
-        intake = new Victor(7);
-        
-        
-        
-    }
-    
-    
 
-// To be straightforward, use this, setting the speed directly within the function, requiring more functions. 
+    public ShooterSubsystem(){
+        intake = new Victor(IntakeConstants.kIntakeMotorPwmPort);
+    }
 
     public void deadIntake(){
         intake.set(0);
     }
-    
+
     public void forwIntake(){
-        intake.set(0.7);
+        intake.set(IntakeConstants.kIntakeSpeed);
     }
 
     public void backIntake(){
-        intake.set(-0.7);
+        intake.set(-IntakeConstants.kIntakeSpeed);
     }
-
-    // To have less syntax to write, use this instead of the above ^
-
-    // public void controlIntake(double speed){
-    //     Intake.set(speed);
-    // }
 }

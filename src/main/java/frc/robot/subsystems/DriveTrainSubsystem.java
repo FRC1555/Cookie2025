@@ -4,23 +4,20 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
-/**
- *
- */
+import frc.robot.Constants.DriveConstants;
+
+/** Tank drive: one PWM Victor channel per side (see DriveConstants). */
 public class DriveTrainSubsystem extends SubsystemBase {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-
-    //Declaring motors
+    // One Victor object per side; each PWM channel is Y-split to two controllers.
     private static Victor leftMotors;
-    private static Victor rightMotors; 
+    private static Victor rightMotors;
     public double currentDriveSpeed;
-    
+
     public DriveTrainSubsystem() {
-        leftMotors = new Victor(0);
-        rightMotors = new Victor(1);
-        currentDriveSpeed = 0.3;
+        leftMotors = new Victor(DriveConstants.kLeftMotorPwmPort);
+        rightMotors = new Victor(DriveConstants.kRightMotorPwmPort);
+        currentDriveSpeed = DriveConstants.kDefaultDriveSpeed;
     }
     
     //Stops the drive train
@@ -31,7 +28,8 @@ public class DriveTrainSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("Right Drive speed: ", 0);    
     }
     
-    //Drives the robot with two separate powers for the wheels
+    // Tank drive. Stick forward reads negative Y, so the left channel is negated:
+    // pushing both sticks forward drives both sides forward (gearboxes are mirrored).
     public void driveTank(double Lspeed, double Rspeed) {
     	leftMotors.set(-Lspeed * currentDriveSpeed);
         rightMotors.set(Rspeed * currentDriveSpeed);
@@ -51,22 +49,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     	rightMotors.set(speed * 0.3);
     }
     
-    //Function pending
-    //Will allow you to drive with separate powers for the wheels for a set amount of time
-    public void driveTank(double Lspeed, double Rspeed, long time) {
-    	driveTank(Lspeed, Rspeed);
-    	//insert wait command here
-    	stop();
-    }
-    
-    //Function pending
-    //Will allow you to drive straight for a set amount of time
-    public void driveStraight(double speed, double time) {
-    	driveStraight(speed);
-    	//insert wait command here
-    	stop();
-    }
-
     public void setDriveSpeed(double newDriveSpeed){
         currentDriveSpeed = newDriveSpeed;
     }

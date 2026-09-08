@@ -25,7 +25,7 @@ public class armDownCMD extends Command{
         m_armSubsystem.setArmSpeed(0);
     }
   
-    // Returns true when the command should end.
+    // Ends when the arm reaches the bottom limit switch.
     @Override
     public boolean isFinished() {
         return !m_armSubsystem.botLimSwitchPressed();

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -32,7 +33,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
   private final XboxController m_driveController =
-      new XboxController(0);
+      new XboxController(OperatorConstants.kDriverControllerPort);
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -51,15 +52,12 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    // Tank drive on the sticks; Y raises the arm, A lowers it (limit switches stop travel).
     m_drivetrain.setDefaultCommand(new RunCommand(
-      () -> 
-          // m_drivetrain.driveArcade(
-          //   MathUtil.applyDeadband(m_driveController.getLeftY(), Constants.OIConstants.kDriveDeadband),
-          //   MathUtil.applyDeadband(m_driveController.getRightX(), Constants.OIConstants.kDriveDeadband))
+      () ->
         m_drivetrain.driveTank(
-          MathUtil.applyDeadband(m_driveController.getLeftY(), 0.05),
-          MathUtil.applyDeadband(m_driveController.getRightY(), 0.05))
+          MathUtil.applyDeadband(m_driveController.getLeftY(), OperatorConstants.kDriveDeadband),
+          MathUtil.applyDeadband(m_driveController.getRightY(), OperatorConstants.kDriveDeadband))
       , m_drivetrain)
     );
 
@@ -68,10 +66,6 @@ public class RobotContainer {
     new JoystickButton(m_driveController, XboxController.Button.kA.value)
         .toggleOnTrue(new armDownCMD(m_arm));
 
-    // new JoystickButton(m_driveController, XboxController.Button.kA.value)
-    //     .onTrue(new RunCommand(()-> m_shooter.downArm(), m_shooter))
-    //     .onFalse(new RunCommand(()-> m_shooter.deadArm(), m_shooter));
-    
     new JoystickButton(m_driveController, XboxController.Button.kLeftBumper.value)
         .onTrue(new RunCommand(() -> m_shooter.forwIntake(), m_shooter))
         .onFalse(new RunCommand(() -> m_shooter.deadIntake(), m_shooter));
@@ -80,41 +74,16 @@ public class RobotContainer {
         .onTrue(new RunCommand(() -> m_shooter.backIntake(), m_shooter))
         .onFalse(new RunCommand(() -> m_shooter.deadIntake(), m_shooter));
 
-    // Full send(Child detected)
+    // Drive speed presets (fraction of full power).
+    // Up: full speed. Right: medium. Down: slow (indoor). Left: half speed.
     new POVButton(m_driveController, 0)
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(1), m_drivetrain));
-    // Medium(outdoor events)
     new POVButton(m_driveController, 90)
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(0.75), m_drivetrain));
-    // Nice and slow(indoor events)
     new POVButton(m_driveController, 180)
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(0.35), m_drivetrain));
-    // Reverse Directions
     new POVButton(m_driveController, 270)
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(0.5), m_drivetrain));
-  
-    
-    // m_Intake.s etDefaultCommand(new RunCommand(
-    //   () -> 
-    //       // m_drivetrain.driveArcade(
-    //       //   MathUtil.applyDeadband(m_driveController.getLeftY(), Constants.OIConstants.kDriveDeadband),
-    //       //   MathUtil.applyDeadband(m_driveController.getRightX(), Constants.OIConstants.kDriveDeadband))
-    //     m_Intake.spinForward(
-    //       m_driveController.getLeftBumper())
-    //   , m_Intake)
-    // );
-    // m_Intake.setDefaultCommand(new RunCommand(
-    //   () -> 
-    //       // m_drivetrain.driveArcade(
-    //       //   MathUtil.applyDeadband(m_driveController.getLeftY(), Constants.OIConstants.kDriveDeadband),
-    //       //   MathUtil.applyDeadband(m_driveController.getRightX(), Constants.OIConstants.kDriveDeadband))
-    //     m_Intake.spinBackwards(
-    //       m_driveController.getRightBumper())
-    //   , m_Intake)
-    // );
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
   }
 
   /**

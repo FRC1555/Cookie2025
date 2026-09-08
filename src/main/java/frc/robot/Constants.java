@@ -14,23 +14,32 @@ package frc.robot;
  */
 public final class Constants {
   public static class OperatorConstants {
+    // Xbox controller USB port on the Driver Station.
     public static final int kDriverControllerPort = 0;
+    // Joystick deadband applied to the drive sticks.
+    public static final double kDriveDeadband = 0.05;
   }
 
- public static final class Arm {
-  public static final int kArmCanId = 6;
-  public static final boolean kArmInverted = false;
-  public static final int kCurrentLimit = 40;
+  public static class DriveConstants {
+    // One PWM channel per side. Each channel feeds a Y-splitter driving two
+    // Victor SPX controllers (PWM mode), one per bag motor.
+    public static final int kLeftMotorPwmPort = 0;
+    public static final int kRightMotorPwmPort = 1;
+    // Default drive speed scale (0.0-1.0). Adjustable on the fly with the POV pad.
+    public static final double kDefaultDriveSpeed = 0.3;
+  }
 
-  public static final double kSoftLimitReverse = 0.0;
-  public static final double kSoftLimitForward = 4.6;
+  public static class ArmConstants {
+    public static final int kArmMotorPwmPort = 2;
+    public static final int kTopLimitSwitchDioPort = 0;
+    public static final int kBottomLimitSwitchDioPort = 1;
+    public static final double kArmUpSpeed = 0.3;
+    public static final double kArmDownSpeed = -0.15;
+  }
 
-  public static final double kArmGearRatio = 1.0 / (48.0 * 4.0);
-  public static final double kPositionFactor = kArmGearRatio * 2.0 * Math.PI; //multiply SM value by this number and get arm position in radians
-  public static final double kVelocityFactor = kArmGearRatio * 2.0 * Math.PI / 60.0;
-  public static final double kArmFreeSpeed = 5676.0 * kVelocityFactor;
-  public static final double kArmZeroCosineOffset = - Math.PI / 6; // radians to add to converted arm position to get real-world arm position (starts at ~30deg angle)
-  // public static final ArmFeedforward kArmFeedforward = new ArmFeedforward(0.0, 0.4, 12.0/kArmFreeSpeed, 0.0);
-
- }
+  public static class IntakeConstants {
+    public static final int kIntakeMotorPwmPort = 7;
+    // Preset speed; forward uses +kIntakeSpeed, reverse uses -kIntakeSpeed.
+    public static final double kIntakeSpeed = 0.7;
+  }
 }
