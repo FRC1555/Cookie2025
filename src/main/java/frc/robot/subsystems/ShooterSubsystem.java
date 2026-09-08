@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Victor;
 import frc.robot.Constants.IntakeConstants;
@@ -22,5 +23,11 @@ public class ShooterSubsystem extends SubsystemBase {
 
     public void backIntake(){
         intake.set(-IntakeConstants.kIntakeSpeed);
+    }
+
+    // Live telemetry for Shuffleboard.
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Intake/Speed", intake.get());
     }
 }

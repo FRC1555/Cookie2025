@@ -24,8 +24,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     public void stop() {
     	leftMotors.set(0);
         rightMotors.set(0);
-        SmartDashboard.putNumber("Left Drive speed: ", 0);
-        SmartDashboard.putNumber("Right Drive speed: ", 0);    
     }
     
     // Tank drive. Stick forward reads negative Y, so the left channel is negated:
@@ -33,8 +31,6 @@ public class DriveTrainSubsystem extends SubsystemBase {
     public void driveTank(double Lspeed, double Rspeed) {
     	leftMotors.set(-Lspeed * currentDriveSpeed);
         rightMotors.set(Rspeed * currentDriveSpeed);
-        SmartDashboard.putNumber("Left Drive speed: ", Lspeed);
-        SmartDashboard.putNumber("Right Drive speed: ", Rspeed);
     }
 
     //Drives the robot as if the front were the back
@@ -51,6 +47,14 @@ public class DriveTrainSubsystem extends SubsystemBase {
     
     public void setDriveSpeed(double newDriveSpeed){
         currentDriveSpeed = newDriveSpeed;
+    }
+
+    // Live telemetry for Shuffleboard: actual motor outputs plus the active speed scale.
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("Drive/Left Output", leftMotors.get());
+        SmartDashboard.putNumber("Drive/Right Output", rightMotors.get());
+        SmartDashboard.putNumber("Drive/Speed Scale", currentDriveSpeed);
     }
 
 
