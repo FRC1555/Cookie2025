@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.subsystems.ArmSubsystem;
 
 public class armUpCMD extends Command{
@@ -17,14 +18,19 @@ public class armUpCMD extends Command{
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        // Original command
-        m_armSubsystem.setArmSpeed(.3);
+        m_armSubsystem.setArmSpeed(ArmConstants.kArmUpSpeed);
     }
-  
+
     // Called once the command ends or is interrupted.
+    // If we arrived at the top switch, keep a small holding output so gravity
+    // doesn't back-drive the arm down. Otherwise (interrupted early), stop.
     @Override
     public void end(boolean interrupted) {
-        m_armSubsystem.setArmSpeed(0);
+        if (!interrupted && m_armSubsystem.topLimitSwitchPressed()) {
+            m_armSubsystem.setArmSpeed(ArmConstants.kArmHoldSpeed);
+        } else {
+            m_armSubsystem.setArmSpeed(0);
+        }
     }
   
     // Ends when the arm reaches the top limit switch.

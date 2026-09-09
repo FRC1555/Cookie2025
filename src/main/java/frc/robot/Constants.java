@@ -35,6 +35,11 @@ public final class Constants {
     public static final int kBottomLimitSwitchDioPort = 1;
     public static final double kArmUpSpeed = 0.3;
     public static final double kArmDownSpeed = -0.15;
+    // Small holding output applied after the arm reaches the top switch.
+    // Just enough to counteract gravity, far below stall-burnout current.
+    // Tune: raise until the arm stays put, then stop. Check the motor for
+    // heat after a few minutes of holding; if it's hot, lower this.
+    public static final double kArmHoldSpeed = 0.08;
   }
 
   public static class IntakeConstants {
