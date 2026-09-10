@@ -35,6 +35,10 @@ public final class Constants {
     public static final int kBottomLimitSwitchDioPort = 1;
     public static final double kArmUpSpeed = 0.3;
     public static final double kArmDownSpeed = -0.15;
+    // Down-travel soft start: start at a fraction of full speed and ramp up
+    // over this many seconds, so gravity+motor don't slam the arm down.
+    public static final double kArmDownRampStart = 0.05;   // first speed
+    public static final double kArmDownRampTime = 0.6;     // seconds to full speed
     // Small holding output applied after the arm reaches the top switch.
     // Just enough to counteract gravity, far below stall-burnout current.
     // Tune: raise until the arm stays put, then stop. Check the motor for
