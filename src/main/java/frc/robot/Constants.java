@@ -52,18 +52,23 @@ public final class Constants {
     // REV Blinkin LED driver PWM channel (5V addressable WS2812 strip on
     // the Blinkin's 7-pin JST output, 12V XT30 power from the PDP/PDH).
     public static final int kBlinkinPwmPort = 5;
-    // Patterns below from the REV Blinkin LED Pattern Table (SPARK pulse
-    // values, -1.0 to 1.0). Add more rows from the table as needed.
+    // Patterns from the REV Blinkin LED Pattern Table (SPARK pulse values).
     // Fixed-palette favorites:
     public static final double RAINBOW = -0.99;
     public static final double CONFETTI = -0.87;
     public static final double SHOT_RED = -0.85;
     public static final double SHOT_BLUE = -0.83;
-    public static final double FIRE_MEDIUM = -0.59;
-    public static final double STROBE_RED = -0.17;
-    public static final double STROBE_BLUE = -0.15;
-    public static final double STROBE_GOLD = -0.13;
-    public static final double STROBE_WHITE = -0.11;
+    public static final double FIRE_MEDIUM = -0.67;
+    public static final double TWINKLES = -0.63;
+    public static final double LARSON_SCANNER = -0.51;
+    public static final double LIGHT_CHASE_BLUE = -0.43;
+    public static final double STROBE_RED = -0.25;
+    public static final double STROBE_BLUE = -0.23;
+    public static final double STROBE_GOLD = -0.21;
+    public static final double STROBE_WHITE = -0.19;
+    public static final double COLOR1_CHASE = -0.17;
+    public static final double COLOR2_CHASE = -0.15;
+    public static final double COLOR12_CHASE = -0.13;
     // Solid colors:
     public static final double SOLID_HOT_PINK = 0.57;
     public static final double SOLID_RED = 0.61;
@@ -79,18 +84,14 @@ public final class Constants {
     public static final double SOLID_GRAY = 0.95;
     public static final double OFF = 0.99; // Black (strip dark)
 
-    // Patterns the X/B buttons cycle through (X = next, B = previous).
-    public static final double[] PATTERN_CYCLE = {
-      SOLID_BLUE,
-      RAINBOW,
-      CONFETTI,
-      FIRE_MEDIUM,
-      STROBE_GOLD,
-      SOLID_RED,
-      SOLID_GREEN,
-      SHOT_BLUE,
-      SOLID_WHITE,
-      OFF,
-    };
+    // Pattern selected per robot action (priority: shooter > arm > drive).
+    public static final double IDLE = SOLID_BLUE;
+    public static final double DRIVE_FORWARD = COLOR12_CHASE;
+    public static final double DRIVE_BACKWARD = COLOR2_CHASE;
+    public static final double DRIVE_TURN = LIGHT_CHASE_BLUE;
+    public static final double ARM_MOVING = CONFETTI;
+    public static final double ARM_AT_TOP = SOLID_VIOLET;
+    public static final double SHOOTING = SOLID_RED;   // actively outputting
+    public static final double INTAKING = SOLID_GREEN; // actively intaking
   }
 }

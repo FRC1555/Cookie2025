@@ -4,13 +4,12 @@
 
 package frc.robot;
 
+import frc.robot.Constants.BlinkinConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.BlinkinSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.commands.armDownCMD;
-import frc.robot.commands.armUpCMD;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -54,7 +53,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Tank drive on the sticks; Y raises the arm, A lowers it (limit switches stop travel).
+    // Tank drive on the sticks.
     m_drivetrain.setDefaultCommand(new RunCommand(
       () ->
         m_drivetrain.driveTank(
@@ -63,30 +62,26 @@ public class RobotContainer {
       , m_drivetrain)
     );
 
-    // LEDs keep re-applying the current pattern (X = next, B = previous).
-    m_blinkin.setDefaultCommand(new RunCommand(() -> m_blinkin.apply(), m_blinkin));
+    // LEDs reflect the robot's current action. Priority: shooter > arm > drive.
+    // Reads each subsystem's live state every loop, so no LED command can
+    // fight another (this default command owns the Blinkin exclusively).
+    m_blinkin.setDefaultCommand(new RunCommand(this::updateLeds, m_blinkin));
 
+    // Arm: Y up, A down.
     new JoystickButton(m_driveController, XboxController.Button.kY.value)
-        .toggleOnTrue(new armUpCMD(m_arm));
+        .toggleOnTrue(new frc.robot.commands.armUpCMD(m_arm));
     new JoystickButton(m_driveController, XboxController.Button.kA.value)
-        .toggleOnTrue(new armDownCMD(m_arm));
+        .toggleOnTrue(new frc.robot.commands.armDownCMD(m_arm));
 
+    // Intake: left bumper forward (output), right bumper reverse (intake).
     new JoystickButton(m_driveController, XboxController.Button.kLeftBumper.value)
         .onTrue(new RunCommand(() -> m_shooter.forwIntake(), m_shooter))
         .onFalse(new RunCommand(() -> m_shooter.deadIntake(), m_shooter));
-
     new JoystickButton(m_driveController, XboxController.Button.kRightBumper.value)
         .onTrue(new RunCommand(() -> m_shooter.backIntake(), m_shooter))
         .onFalse(new RunCommand(() -> m_shooter.deadIntake(), m_shooter));
 
-    // LED pattern cycling: X = next, B = previous.
-    new JoystickButton(m_driveController, XboxController.Button.kX.value)
-        .onTrue(new InstantCommand(() -> m_blinkin.nextPattern(), m_blinkin));
-    new JoystickButton(m_driveController, XboxController.Button.kB.value)
-        .onTrue(new InstantCommand(() -> m_blinkin.previousPattern(), m_blinkin));
-
     // Drive speed presets (fraction of full power).
-    // Up: full speed. Right: medium. Down: slow (indoor). Left: half speed.
     new POVButton(m_driveController, 0)
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(1), m_drivetrain));
     new POVButton(m_driveController, 90)
@@ -95,6 +90,43 @@ public class RobotContainer {
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(0.35), m_drivetrain));
     new POVButton(m_driveController, 270)
         .onTrue(new InstantCommand(() -> m_drivetrain.setDriveSpeed(0.5), m_drivetrain));
+  }
+
+  /** Pick the LED pattern for the current robot state (called every loop). */
+  private void updateLeds() {
+    // Shooter has the highest priority: green while intaking, red while outputting.
+    double shooterOut = m_shooter.getOutput();
+    if (shooterOut < -0.05) {
+      m_blinkin.setPattern(BlinkinConstants.INTAKING);
+      return;
+    }
+    if (shooterOut > 0.05) {
+      m_blinkin.setPattern(BlinkinConstants.SHOOTING);
+      return;
+    }
+
+    // Arm: violet while parked at the top switch, confetti while moving.
+    if (m_arm.topLimitSwitchPressed()) {
+      m_blinkin.setPattern(BlinkinConstants.ARM_AT_TOP);
+      return;
+    }
+    if (Math.abs(m_arm.getOutput()) > 0.05) {
+      m_blinkin.setPattern(BlinkinConstants.ARM_MOVING);
+      return;
+    }
+
+    // Drive: chase forward, different chase backward, turn-chase while turning.
+    double ly = MathUtil.applyDeadband(m_driveController.getLeftY(), 0.05);
+    double ry = MathUtil.applyDeadband(m_driveController.getRightY(), 0.05);
+    if (ly < -0.01 && ry < -0.01) {
+      m_blinkin.setPattern(BlinkinConstants.DRIVE_FORWARD);
+    } else if (ly > 0.01 && ry > 0.01) {
+      m_blinkin.setPattern(BlinkinConstants.DRIVE_BACKWARD);
+    } else if (Math.abs(ly) > 0.01 || Math.abs(ry) > 0.01) {
+      m_blinkin.setPattern(BlinkinConstants.DRIVE_TURN);
+    } else {
+      m_blinkin.setPattern(BlinkinConstants.IDLE);
+    }
   }
 
   /**

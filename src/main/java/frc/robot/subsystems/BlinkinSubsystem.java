@@ -13,37 +13,17 @@ import frc.robot.Constants.BlinkinConstants;
  */
 public class BlinkinSubsystem extends SubsystemBase {
     private final Spark blinkin;
-    private final double[] patterns = BlinkinConstants.PATTERN_CYCLE;
-    private int index;
     private double currentPattern;
 
     public BlinkinSubsystem() {
         blinkin = new Spark(BlinkinConstants.kBlinkinPwmPort);
-        index = 0;
-        currentPattern = patterns[index];
+        currentPattern = BlinkinConstants.IDLE;
     }
 
     /** Select a pattern; use one of the BlinkinConstants pattern values. */
     public void setPattern(double pattern) {
         currentPattern = pattern;
         blinkin.set(pattern);
-    }
-
-    /** Advance to the next pattern in the cycle. */
-    public void nextPattern() {
-        index = (index + 1) % patterns.length;
-        currentPattern = patterns[index];
-    }
-
-    /** Step back to the previous pattern in the cycle. */
-    public void previousPattern() {
-        index = (index - 1 + patterns.length) % patterns.length;
-        currentPattern = patterns[index];
-    }
-
-    /** Re-apply the current pattern (called by the default command each loop). */
-    public void apply() {
-        blinkin.set(currentPattern);
     }
 
     public double getPattern() {

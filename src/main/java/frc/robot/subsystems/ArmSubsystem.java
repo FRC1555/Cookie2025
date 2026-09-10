@@ -40,4 +40,9 @@ public class ArmSubsystem extends SubsystemBase{
     public boolean botLimSwitchPressed(){
         return botLimSwitch.get();
     }
+
+    /** Current arm motor output (nonzero = moving up/down or holding). */
+    public double getOutput() {
+        return armMotor.get();
+    }
 }

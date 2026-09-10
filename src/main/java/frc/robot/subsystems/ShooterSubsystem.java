@@ -30,4 +30,9 @@ public class ShooterSubsystem extends SubsystemBase {
     public void periodic() {
         SmartDashboard.putNumber("Intake/Speed", intake.get());
     }
+
+    /** Current intake output: >0 = outputting, <0 = intaking, ~0 = idle. */
+    public double getOutput() {
+        return intake.get();
+    }
 }
