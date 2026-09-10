@@ -85,10 +85,12 @@ public final class Constants {
     public static final double OFF = 0.99; // Black (strip dark)
 
     // Pattern selected per robot action (priority: shooter > arm > drive).
+    // Drive uses scanner/strobe patterns: they're bright and fast regardless
+    // of the Blinkin's Color 1/2 potentiometer settings.
     public static final double IDLE = SOLID_BLUE;
-    public static final double DRIVE_FORWARD = COLOR12_CHASE;
-    public static final double DRIVE_BACKWARD = COLOR2_CHASE;
-    public static final double DRIVE_TURN = LIGHT_CHASE_BLUE;
+    public static final double DRIVE_FORWARD = LARSON_SCANNER;   // red Cylon sweep
+    public static final double DRIVE_BACKWARD = STROBE_WHITE;    // bright white strobe
+    public static final double DRIVE_TURN = STROBE_GOLD;         // gold flash
     public static final double ARM_MOVING = CONFETTI;
     public static final double ARM_AT_TOP = SOLID_VIOLET;
     public static final double SHOOTING = SOLID_RED;   // actively outputting
