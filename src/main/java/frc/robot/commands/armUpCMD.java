@@ -22,11 +22,11 @@ public class armUpCMD extends Command{
     }
 
     // Called once the command ends or is interrupted.
-    // If we arrived at the top switch, keep a small holding output so gravity
-    // doesn't back-drive the arm down. Otherwise (interrupted early), stop.
+    // If we arrived at the top switch (interrupted=false), keep a small holding
+    // output so gravity doesn't back-drive the arm down. Otherwise stop.
     @Override
     public void end(boolean interrupted) {
-        if (!interrupted && m_armSubsystem.topLimitSwitchPressed()) {
+        if (!interrupted && !m_armSubsystem.topLimitSwitchPressed()) {
             m_armSubsystem.setArmSpeed(ArmConstants.kArmHoldSpeed);
         } else {
             m_armSubsystem.setArmSpeed(0);

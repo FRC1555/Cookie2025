@@ -106,7 +106,9 @@ public class RobotContainer {
     }
 
     // Arm: violet while parked at the top switch, confetti while moving.
-    if (m_arm.topLimitSwitchPressed()) {
+    // Note: topLimitSwitchPressed() returns false when the top switch is
+    // actually pressed (normally-closed convention), so invert it here.
+    if (!m_arm.topLimitSwitchPressed()) {
       m_blinkin.setPattern(BlinkinConstants.ARM_AT_TOP);
       return;
     }
