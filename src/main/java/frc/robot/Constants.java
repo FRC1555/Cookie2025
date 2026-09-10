@@ -47,4 +47,50 @@ public final class Constants {
     // Preset speed; forward uses +kIntakeSpeed, reverse uses -kIntakeSpeed.
     public static final double kIntakeSpeed = 0.7;
   }
+
+  public static class BlinkinConstants {
+    // REV Blinkin LED driver PWM channel (5V addressable WS2812 strip on
+    // the Blinkin's 7-pin JST output, 12V XT30 power from the PDP/PDH).
+    public static final int kBlinkinPwmPort = 5;
+    // Patterns below from the REV Blinkin LED Pattern Table (SPARK pulse
+    // values, -1.0 to 1.0). Add more rows from the table as needed.
+    // Fixed-palette favorites:
+    public static final double RAINBOW = -0.99;
+    public static final double CONFETTI = -0.87;
+    public static final double SHOT_RED = -0.85;
+    public static final double SHOT_BLUE = -0.83;
+    public static final double FIRE_MEDIUM = -0.59;
+    public static final double STROBE_RED = -0.17;
+    public static final double STROBE_BLUE = -0.15;
+    public static final double STROBE_GOLD = -0.13;
+    public static final double STROBE_WHITE = -0.11;
+    // Solid colors:
+    public static final double SOLID_HOT_PINK = 0.57;
+    public static final double SOLID_RED = 0.61;
+    public static final double SOLID_ORANGE = 0.65;
+    public static final double SOLID_YELLOW = 0.69;
+    public static final double SOLID_LIME = 0.73;
+    public static final double SOLID_GREEN = 0.77;
+    public static final double SOLID_AQUA = 0.81;
+    public static final double SOLID_SKY_BLUE = 0.83;
+    public static final double SOLID_BLUE = 0.87;
+    public static final double SOLID_VIOLET = 0.91;
+    public static final double SOLID_WHITE = 0.93;
+    public static final double SOLID_GRAY = 0.95;
+    public static final double OFF = 0.99; // Black (strip dark)
+
+    // Patterns the X/B buttons cycle through (X = next, B = previous).
+    public static final double[] PATTERN_CYCLE = {
+      SOLID_BLUE,
+      RAINBOW,
+      CONFETTI,
+      FIRE_MEDIUM,
+      STROBE_GOLD,
+      SOLID_RED,
+      SOLID_GREEN,
+      SHOT_BLUE,
+      SOLID_WHITE,
+      OFF,
+    };
+  }
 }

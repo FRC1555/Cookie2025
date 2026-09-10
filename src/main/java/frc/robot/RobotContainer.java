@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.BlinkinSubsystem;
 import frc.robot.subsystems.DriveTrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.armDownCMD;
@@ -32,6 +33,7 @@ public class RobotContainer {
   private final DriveTrainSubsystem m_drivetrain = new DriveTrainSubsystem();
   private final ShooterSubsystem m_shooter = new ShooterSubsystem();
   private final ArmSubsystem m_arm = new ArmSubsystem();
+  private final BlinkinSubsystem m_blinkin = new BlinkinSubsystem();
   private final XboxController m_driveController =
       new XboxController(OperatorConstants.kDriverControllerPort);
 
@@ -61,6 +63,9 @@ public class RobotContainer {
       , m_drivetrain)
     );
 
+    // LEDs keep re-applying the current pattern (X = next, B = previous).
+    m_blinkin.setDefaultCommand(new RunCommand(() -> m_blinkin.apply(), m_blinkin));
+
     new JoystickButton(m_driveController, XboxController.Button.kY.value)
         .toggleOnTrue(new armUpCMD(m_arm));
     new JoystickButton(m_driveController, XboxController.Button.kA.value)
@@ -73,6 +78,12 @@ public class RobotContainer {
     new JoystickButton(m_driveController, XboxController.Button.kRightBumper.value)
         .onTrue(new RunCommand(() -> m_shooter.backIntake(), m_shooter))
         .onFalse(new RunCommand(() -> m_shooter.deadIntake(), m_shooter));
+
+    // LED pattern cycling: X = next, B = previous.
+    new JoystickButton(m_driveController, XboxController.Button.kX.value)
+        .onTrue(new InstantCommand(() -> m_blinkin.nextPattern(), m_blinkin));
+    new JoystickButton(m_driveController, XboxController.Button.kB.value)
+        .onTrue(new InstantCommand(() -> m_blinkin.previousPattern(), m_blinkin));
 
     // Drive speed presets (fraction of full power).
     // Up: full speed. Right: medium. Down: slow (indoor). Left: half speed.
