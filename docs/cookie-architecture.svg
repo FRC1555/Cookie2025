@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1220 900" font-family="system-ui, -apple-system, 'Segoe UI', 'Hiragino Sans', 'Yu Gothic', 'Noto Sans CJK JP', sans-serif" font-size="12">
+  <defs>
+    <marker id="arrow-end" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333"/>
+    </marker>
+    <style>
+      text { dominant-baseline: central; text-anchor: middle; fill: #222; stroke: none; }
+      .lane-title { font-weight: 600; letter-spacing: 0.5px; }
+      .edge-label { fill: #333; }
+      .edge-label-bg { fill: #ffffff; stroke: none; }
+    </style>
+  </defs>
+  <g id="layer-containers">
+    <rect x="20" y="20" width="1180" height="200" rx="10" fill="#F5F5F5" stroke="#666" stroke-width="1.5"/>
+    <text class="lane-title" x="610" y="45" font-size="13" letter-spacing="0.5">DRIVER SIDE</text>
+    <rect x="20" y="240" width="1180" height="220" rx="10" fill="#EEF2FA" stroke="#6C8EBF" stroke-width="1.5"/>
+    <text class="lane-title" x="610" y="265" font-size="13" letter-spacing="0.5">ROBOT CODE (command-based)</text>
+    <rect x="20" y="480" width="1180" height="400" rx="10" fill="#F5F5F5" stroke="#666" stroke-width="1.5"/>
+    <text class="lane-title" x="610" y="505" font-size="13" letter-spacing="0.5">HARDWARE (roboRIO PWM + Blinkin)</text>
+  </g>
+  <g id="layer-nodes">
+    <!-- DRIVER SIDE row 0 -->
+    <g id="node-driver">
+      <rect x="40" y="90" width="140" height="60" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="110" y="120">Driver Station</text>
+    </g>
+    <g id="node-controller">
+      <rect x="240" y="90" width="140" height="60" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="310" y="120">Xbox Controller</text>
+    </g>
+    <g id="node-elastic">
+      <rect x="440" y="90" width="160" height="60" rx="8" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.5"/>
+      <text x="520" y="120">Elastic (dashboard)</text>
+    </g>
+
+    <!-- ROBOT CODE row 1 -->
+    <g id="node-robotcontainer">
+      <rect x="220" y="320" width="160" height="70" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="300" y="345">RobotContainer</text>
+      <text x="300" y="362">bindings + LED logic</text>
+    </g>
+    <g id="node-drivetrain">
+      <rect x="70" y="440" width="140" height="60" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="140" y="470">DriveTrainSubsystem</text>
+    </g>
+    <g id="node-arm">
+      <rect x="230" y="440" width="140" height="60" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="300" y="470">ArmSubsystem</text>
+    </g>
+    <g id="node-shooter">
+      <rect x="390" y="440" width="140" height="60" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="460" y="470">ShooterSubsystem</text>
+    </g>
+    <g id="node-blinkin">
+      <rect x="550" y="440" width="150" height="60" rx="8" fill="#DAE8FC" stroke="#6C8EBF" stroke-width="1.5"/>
+      <text x="625" y="470">BlinkinSubsystem</text>
+    </g>
+    <g id="node-ledlogic">
+      <rect x="720" y="320" width="180" height="70" rx="8" fill="#FFF2CC" stroke="#D6B656" stroke-width="1.5"/>
+      <text x="810" y="345">LED priority</text>
+      <text x="810" y="362">shooter &gt; arm &gt; drive</text>
+    </g>
+
+    <!-- HARDWARE row 2 -->
+    <g id="node-pwm-drive">
+      <rect x="40" y="600" width="160" height="60" rx="8" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.5"/>
+      <text x="120" y="630">PWM 0/1 -> Victors</text>
+    </g>
+    <g id="node-pwm-arm">
+      <rect x="220" y="600" width="160" height="60" rx="8" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.5"/>
+      <text x="300" y="630">PWM 2 -> arm Victor</text>
+    </g>
+    <g id="node-dio-arm">
+      <rect x="220" y="680" width="160" height="60" rx="8" fill="#F8CECC" stroke="#B85450" stroke-width="1.5"/>
+      <text x="300" y="710">DIO 0/1 limit switches</text>
+    </g>
+    <g id="node-pwm-shooter">
+      <rect x="400" y="600" width="160" height="60" rx="8" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.5"/>
+      <text x="480" y="630">PWM 7 -> intake Victor</text>
+    </g>
+    <g id="node-pwm-blinkin">
+      <rect x="580" y="600" width="160" height="60" rx="8" fill="#FFE6CC" stroke="#D79B00" stroke-width="1.5"/>
+      <text x="660" y="630">PWM 5 -> Blinkin</text>
+    </g>
+    <g id="node-led-strip">
+      <rect x="800" y="600" width="200" height="60" rx="8" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.5"/>
+      <text x="900" y="630">5V WS2812 LED strip</text>
+    </g>
+    <g id="node-xt30">
+      <rect x="800" y="680" width="200" height="60" rx="8" fill="#E1D5E7" stroke="#9673A6" stroke-width="1.5"/>
+      <text x="900" y="710">XT30 12V from PDP</text>
+    </g>
+
+    <!-- pattern legend -->
+    <g id="node-legend">
+      <rect x="40" y="780" width="1160" height="80" rx="8" fill="#FFFFFF" stroke="#999" stroke-width="1"/>
+      <text x="60" y="805" text-anchor="start" font-weight="600" letter-spacing="0.5">LED patterns</text>
+      <text x="60" y="830" text-anchor="start">Idle: solid blue</text>
+      <text x="300" y="830" text-anchor="start">Forward: red scanner</text>
+      <text x="560" y="830" text-anchor="start">Reverse: white strobe</text>
+      <text x="820" y="830" text-anchor="start">Turn: gold flash</text>
+      <text x="60" y="850" text-anchor="start">Arm moving: confetti</text>
+      <text x="300" y="850" text-anchor="start">Arm at top: violet</text>
+      <text x="560" y="850" text-anchor="start">Shooter output: red</text>
+      <text x="820" y="850" text-anchor="start">Intake: green</text>
+    </g>
+  </g>
+  <g id="layer-edges" fill="none" stroke="#333" stroke-width="1.5">
+    <!-- driver -> controller -->
+    <path id="edge-driver-controller" d="M 180,120 L 240,120" marker-end="url(#arrow-end)"/>
+    <!-- controller -> RobotContainer -->
+    <path id="edge-controller-container" d="M 310,150 L 300,320" marker-end="url(#arrow-end)"/>
+    <!-- elastic -> RobotContainer -->
+    <path id="edge-elastic-container" d="M 520,150 L 400,320" marker-end="url(#arrow-end)"/>
+    <!-- RobotContainer -> subsystems -->
+    <path id="edge-container-drivetrain" d="M 300,390 L 175,440" marker-end="url(#arrow-end)"/>
+    <path id="edge-container-arm" d="M 300,390 L 300,440" marker-end="url(#arrow-end)"/>
+    <path id="edge-container-shooter" d="M 300,390 L 460,440" marker-end="url(#arrow-end)"/>
+    <path id="edge-container-blinkin" d="M 300,390 L 625,440" marker-end="url(#arrow-end)"/>
+    <!-- subsystem -> LED logic -->
+    <path id="edge-drivetrain-led" d="M 210,470 L 720,355" marker-end="url(#arrow-end)"/>
+    <path id="edge-arm-led" d="M 370,470 L 720,355" marker-end="url(#arrow-end)"/>
+    <path id="edge-shooter-led" d="M 530,470 L 720,355" marker-end="url(#arrow-end)"/>
+    <!-- LED logic -> Blinkin -->
+    <path id="edge-led-blinkin" d="M 810,390 L 660,440" marker-end="url(#arrow-end)"/>
+    <!-- subsystems -> hardware -->
+    <path id="edge-drivetrain-pwm" d="M 140,500 L 120,600" marker-end="url(#arrow-end)"/>
+    <path id="edge-arm-pwm" d="M 300,500 L 300,600" marker-end="url(#arrow-end)"/>
+    <path id="edge-arm-dio" d="M 300,500 L 300,680" marker-end="url(#arrow-end)"/>
+    <path id="edge-shooter-pwm" d="M 460,500 L 480,600" marker-end="url(#arrow-end)"/>
+    <path id="edge-blinkin-pwm" d="M 625,500 L 660,600" marker-end="url(#arrow-end)"/>
+    <!-- blinkin -> strip + power -->
+    <path id="edge-blinkin-strip" d="M 730,630 L 800,630" marker-end="url(#arrow-end)"/>
+    <path id="edge-xt30-strip" d="M 900,680 L 900,660" marker-end="url(#arrow-end)"/>
+  </g>
+</svg>
